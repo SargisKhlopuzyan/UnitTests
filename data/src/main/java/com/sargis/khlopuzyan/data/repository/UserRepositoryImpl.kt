@@ -6,7 +6,7 @@ import com.sargis.khlopuzyan.domain.repository.UserRepository
 
 class UserRepositoryImpl : UserRepository {
     override fun getName(): UserName {
-        return UserName(firstName = "Sargis", name = "Saqo")
+        return UserName(firstName = "Sargis", lastName = "Khlopuzyan")
     }
 
     override fun saveName(saveParam: SaveUserNameParam): Boolean {
