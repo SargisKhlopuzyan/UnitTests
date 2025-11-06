@@ -14,7 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,11 +33,11 @@ fun RegisterScreen(uiState: RegisterUiState, onEvent: (RegisterUiEvent) -> Unit)
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            var firstName by remember {
+            var firstName by rememberSaveable {
                 mutableStateOf("")
             }
 
-            var lastName by remember {
+            var lastName by rememberSaveable {
                 mutableStateOf("")
             }
 

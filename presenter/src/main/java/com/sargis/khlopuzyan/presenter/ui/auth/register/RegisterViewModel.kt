@@ -28,7 +28,7 @@ class RegisterViewModel(
         RegisterUiState()
     )
 
-    private var _navigationEvent: MutableSharedFlow<RegisterNavigationEvent> = MutableSharedFlow<RegisterNavigationEvent>()
+    private var _navigationEvent: MutableSharedFlow<RegisterNavigationEvent> = MutableSharedFlow()
     var navigationEvent: SharedFlow<RegisterNavigationEvent> = _navigationEvent.asSharedFlow()
 
     fun onEvent(uiEvent: RegisterUiEvent) {

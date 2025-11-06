@@ -4,10 +4,13 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import com.sargis.khlopuzyan.presenter.ui.auth.login.LoginNavigationEvent
 import com.sargis.khlopuzyan.presenter.ui.auth.login.LoginScreen
+import com.sargis.khlopuzyan.presenter.ui.auth.login.LoginUiEvent
 import com.sargis.khlopuzyan.presenter.ui.auth.login.LoginViewModel
 import com.sargis.khlopuzyan.presenter.ui.auth.register.RegisterNavigationEvent
 import com.sargis.khlopuzyan.presenter.ui.auth.register.RegisterScreen
@@ -24,14 +27,33 @@ fun NavGraphBuilder.authNavGraph(
         composable(route = AuthRoutes.Splash.route) {
             LaunchedEffect(true) {
                 delay(3000)
-                navController.navigate(AuthRoutes.Login.route)
+                navController.navigate(AuthRoutes.Login.route) {
+                    popUpTo(navController.graph.findStartDestination().id) {
+                        inclusive = true
+                    }
+                }
             }
             SplashScreen()
         }
         composable(route = AuthRoutes.Login.route) {
             val viewModel: LoginViewModel = koinViewModel()
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-            LoginScreen(uiState, onEvent = viewModel::onEvent)
+            val navigationEvent by viewModel.navigationEvent.collectAsStateWithLifecycle(null)
+
+            LaunchedEffect(navigationEvent) {
+                navigationEvent?.let { event ->
+                    when (event) {
+                        LoginNavigationEvent.NavigateUp -> navController.navigateUp()
+                        is LoginNavigationEvent.AuthSuccess -> onAuthSuccess(event.userId)
+                    }
+                }
+            }
+            LoginScreen(uiState, onEvent = {
+                when (it) {
+                    LoginUiEvent.Register -> navController.navigate(AuthRoutes.Register.route)
+                    is LoginUiEvent.Save -> viewModel::onEvent
+                }
+            })
         }
         composable(route = AuthRoutes.Register.route) {
             val viewModel: RegisterViewModel = koinViewModel()

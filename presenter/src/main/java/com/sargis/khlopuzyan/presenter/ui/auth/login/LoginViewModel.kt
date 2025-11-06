@@ -5,9 +5,12 @@ import androidx.lifecycle.viewModelScope
 import com.sargis.khlopuzyan.domain.entity.SaveUserParam
 import com.sargis.khlopuzyan.domain.usecase.GetUserUseCase
 import com.sargis.khlopuzyan.domain.usecase.SaveUserUseCase
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -27,9 +30,14 @@ class LoginViewModel(
         LoginUiState()
     )
 
+    private var _navigationEvent: MutableSharedFlow<LoginNavigationEvent> = MutableSharedFlow()
+    var navigationEvent: SharedFlow<LoginNavigationEvent> = _navigationEvent.asSharedFlow()
+
+
     fun onEvent(uiEvent: LoginUiEvent) {
         when (uiEvent) {
             is LoginUiEvent.Save -> save(uiEvent.firstName, uiEvent.lastName)
+            else -> {}
         }
     }
 
@@ -43,7 +51,6 @@ class LoginViewModel(
         val user = getUserUseCase()
         _uiState.update {
             it.copy(
-                isSaved = true,
                 user = user
             )
         }
