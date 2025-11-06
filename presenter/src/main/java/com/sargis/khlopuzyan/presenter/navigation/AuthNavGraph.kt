@@ -26,7 +26,7 @@ fun NavGraphBuilder.authNavGraph(
     navigation(startDestination = AuthRoutes.Splash.route, route = authRoute) {
         composable(route = AuthRoutes.Splash.route) {
             LaunchedEffect(true) {
-                delay(3000)
+                delay(2000)
                 navController.navigate(AuthRoutes.Login.route) {
                     popUpTo(navController.graph.findStartDestination().id) {
                         inclusive = true
@@ -51,7 +51,7 @@ fun NavGraphBuilder.authNavGraph(
             LoginScreen(uiState, onEvent = {
                 when (it) {
                     LoginUiEvent.Register -> navController.navigate(AuthRoutes.Register.route)
-                    is LoginUiEvent.Save -> viewModel::onEvent
+                    is LoginUiEvent.Login -> viewModel::onEvent
                 }
             })
         }

@@ -33,6 +33,11 @@ fun RegisterScreen(uiState: RegisterUiState, onEvent: (RegisterUiEvent) -> Unit)
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+
+            var userName by rememberSaveable {
+                mutableStateOf("")
+            }
+
             var firstName by rememberSaveable {
                 mutableStateOf("")
             }
@@ -40,6 +45,23 @@ fun RegisterScreen(uiState: RegisterUiState, onEvent: (RegisterUiEvent) -> Unit)
             var lastName by rememberSaveable {
                 mutableStateOf("")
             }
+
+            var password by rememberSaveable {
+                mutableStateOf("")
+            }
+
+            OutlinedTextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = userName,
+                onValueChange = {
+                    userName = it
+                },
+                label = {
+                    Text("User name")
+                }
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
 
             OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
@@ -67,9 +89,22 @@ fun RegisterScreen(uiState: RegisterUiState, onEvent: (RegisterUiEvent) -> Unit)
 
             Spacer(modifier = Modifier.height(8.dp))
 
+            OutlinedTextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = password,
+                onValueChange = {
+                    password = it
+                },
+                label = {
+                    Text("Password")
+                }
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
             Button(
                 onClick = {
-                    onEvent(RegisterUiEvent.Register(firstName, lastName))
+                    onEvent(RegisterUiEvent.Register(userName, firstName, lastName, password))
                 }
             ) {
                 Text(text = "Register")

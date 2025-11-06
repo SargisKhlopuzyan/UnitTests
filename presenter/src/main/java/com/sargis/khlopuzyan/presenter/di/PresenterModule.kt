@@ -10,7 +10,7 @@ private val viewModelModule = module {
         LoginViewModel(get(), get())
     }
     viewModel {
-        RegisterViewModel(get(), get(), get())
+        RegisterViewModel(get())
     }
 }
 

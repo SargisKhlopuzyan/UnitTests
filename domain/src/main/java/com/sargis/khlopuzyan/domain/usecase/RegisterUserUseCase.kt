@@ -1,20 +1,21 @@
 package com.sargis.khlopuzyan.domain.usecase
 
-import com.sargis.khlopuzyan.domain.entity.SaveUserParam
+import com.sargis.khlopuzyan.domain.entity.RegisterUserParam
+import com.sargis.khlopuzyan.domain.entity.User
 import com.sargis.khlopuzyan.domain.repository.UserRepository
 import com.sargis.khlopuzyan.domain.util.Result
 
 class RegisterUserUseCase(
     private val userRepository: UserRepository,
 ) {
-    operator fun invoke(param: SaveUserParam): Result<Boolean> {
-        val existingUser = userRepository.getUser()
+    operator fun invoke(param: RegisterUserParam): Result<User> {
+        val isUserExist = userRepository.isUserExist(param.userName)
 
-        if (existingUser != null) {
+        if (isUserExist) {
             return Result.Error(error = "User already exist", data = null)
         }
 
-        val result = userRepository.saveUser(saveParam = param)
-        return Result.Success(result)
+        val registeredUser = userRepository.registerUser(registerUserParam = param)
+        return Result.Success(registeredUser)
     }
 }

@@ -2,9 +2,11 @@ package com.sargis.khlopuzyan.presenter.ui.auth.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sargis.khlopuzyan.domain.entity.SaveUserParam
-import com.sargis.khlopuzyan.domain.usecase.GetUserUseCase
-import com.sargis.khlopuzyan.domain.usecase.SaveUserUseCase
+import com.sargis.khlopuzyan.domain.entity.LoginUserParam
+import com.sargis.khlopuzyan.domain.entity.User
+import com.sargis.khlopuzyan.domain.usecase.GetLastSignedInUserUseCase
+import com.sargis.khlopuzyan.domain.usecase.LoginUserUseCase
+import com.sargis.khlopuzyan.domain.util.Result
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -16,8 +18,8 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 
 class LoginViewModel(
-    private val getUserUseCase: GetUserUseCase,
-    private val saveUserUseCase: SaveUserUseCase,
+    private val getLastSignedInUserUseCase: GetLastSignedInUserUseCase,
+    private val loginUserUseCase: LoginUserUseCase,
 ) : ViewModel() {
 
     private var _uiState = MutableStateFlow<LoginUiState>(LoginUiState())
@@ -36,22 +38,41 @@ class LoginViewModel(
 
     fun onEvent(uiEvent: LoginUiEvent) {
         when (uiEvent) {
-            is LoginUiEvent.Save -> save(uiEvent.firstName, uiEvent.lastName)
+            is LoginUiEvent.Login -> login(uiEvent.userName, uiEvent.password)
             else -> {}
         }
     }
 
-    fun save(firstName: String, lastName: String) {
-        val param = SaveUserParam(firstName = firstName, lastName = lastName)
-        val isSaved = saveUserUseCase(param = param)
+    fun login(userName: String, password: String) {
+        val param = LoginUserParam(
+            userName = userName,
+            password = password
+        )
+        val result = loginUserUseCase(param)
+        when (result) {
+            is Result.Error<*> -> _uiState.update {
+                it.copy(
+                    error = result.error
+                )
+            }
 
+            is Result.Success<User> -> {
+                result.data?.id?.let { userId ->
+                    _navigationEvent.tryEmit(LoginNavigationEvent.AuthSuccess(userId))
+                } ?: run {
+                    _uiState.update {
+                        it.copy(error = "Something went wrong")
+                    }
+                }
+            }
+        }
     }
 
     fun loadUser() {
-        val user = getUserUseCase()
+        val userName = getLastSignedInUserUseCase()
         _uiState.update {
             it.copy(
-                user = user
+                lastSignedInUserName = userName
             )
         }
     }

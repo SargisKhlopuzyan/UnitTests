@@ -35,22 +35,22 @@ fun LoginScreen(uiState: LoginUiState, onEvent: (LoginUiEvent) -> Unit) {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            var firstName by rememberSaveable {
-                mutableStateOf(uiState.user?.firstName ?: "")
+            var userName by rememberSaveable {
+                mutableStateOf(uiState.lastSignedInUserName ?: "")
             }
 
-            var lastName by rememberSaveable {
-                mutableStateOf(uiState.user?.lastName ?: "")
+            var password by rememberSaveable {
+                mutableStateOf("")
             }
 
             OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
-                value = firstName,
+                value = userName,
                 onValueChange = {
-                    firstName = it
+                    userName = it
                 },
                 label = {
-                    Text("First name")
+                    Text("User name")
                 }
             )
 
@@ -58,12 +58,12 @@ fun LoginScreen(uiState: LoginUiState, onEvent: (LoginUiEvent) -> Unit) {
 
             OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
-                value = lastName,
+                value = password,
                 onValueChange = {
-                    lastName = it
+                    password = it
                 },
                 label = {
-                    Text("Last name")
+                    Text("Password")
                 }
             )
 
@@ -72,7 +72,7 @@ fun LoginScreen(uiState: LoginUiState, onEvent: (LoginUiEvent) -> Unit) {
             Row {
                 Button(
                     onClick = {
-                        onEvent(LoginUiEvent.Save(firstName, lastName))
+                        onEvent(LoginUiEvent.Login(userName, password))
                     }
                 ) {
                     Text(text = "Login")

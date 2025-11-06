@@ -1,9 +1,6 @@
 package com.sargis.khlopuzyan.domain.entity
 
-data class User(
-    val id: Int,
+data class LoginUserParam(
     val userName: String,
     val password: String,
-    val firstName: String,
-    val lastName: String,
 )
