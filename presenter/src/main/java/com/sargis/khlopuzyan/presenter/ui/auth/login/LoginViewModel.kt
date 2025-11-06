@@ -25,7 +25,7 @@ class LoginViewModel(
     private var _uiState = MutableStateFlow<LoginUiState>(LoginUiState())
 
     val uiState: StateFlow<LoginUiState> = _uiState.onStart {
-        loadUser()
+        fetchLastSignedInUser()
     }.stateIn(
         viewModelScope,
         SharingStarted.WhileSubscribed(5000),
@@ -68,12 +68,14 @@ class LoginViewModel(
         }
     }
 
-    fun loadUser() {
+    fun fetchLastSignedInUser() {
         val userName = getLastSignedInUserUseCase()
-        _uiState.update {
-            it.copy(
-                lastSignedInUserName = userName
-            )
+        userName?.let {
+            _uiState.update {
+                it.copy(
+                    lastSignedInUsername = userName
+                )
+            }
         }
     }
 }

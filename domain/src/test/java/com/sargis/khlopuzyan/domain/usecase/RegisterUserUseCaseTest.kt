@@ -23,14 +23,14 @@ class RegisterUserUseCaseTest {
 
     @Test
     fun `should save user if userName wasn't already saved`() {
-        val testUserName = "SargisKh_New"
-        `when`(userRepository.isUserExist(testUserName)).thenReturn(false)
+        val testUsername = "SargisKh_New"
+        `when`(userRepository.isUserExist(testUsername)).thenReturn(false)
 
         val testParam = RegisterUserParam(
-            userName = testUserName,
+            username = testUsername,
             firstName = "Sargis",
             lastName = "Khlopuzyan",
-            password = "1234"
+            password = "a1234"
         )
 
         val actual = registerUserUseCase(testParam)
@@ -40,14 +40,14 @@ class RegisterUserUseCaseTest {
 
     @Test
     fun `should not save user if userName was already saved`() {
-        val testUserName = "SargisKh"
-        `when`(userRepository.isUserExist(testUserName)).thenReturn(true)
+        val testUsername = "SargisKh"
+        `when`(userRepository.isUserExist(testUsername)).thenReturn(true)
 
         val testParam = RegisterUserParam(
-            userName = testUserName,
+            username = testUsername,
             firstName = "Sargis",
             lastName = "Khlopuzyan",
-            password = "1234"
+            password = "a1234"
         )
         val actual = registerUserUseCase(testParam)
         Assertions.assertInstanceOf(Result.Error::class.java, actual)
@@ -57,10 +57,10 @@ class RegisterUserUseCaseTest {
     fun `should call isUserExist function one time`() {
         `when`(userRepository.isUserExist(any())).thenReturn(true)
         val testParam = RegisterUserParam(
-            userName = "SargisKh",
+            username = "SargisKh",
             firstName = "Sargis",
             lastName = "Khlopuzyan",
-            password = "1234"
+            password = "a1234"
         )
         val actual = registerUserUseCase(testParam)
         Mockito.verify(userRepository, Mockito.times(1)).isUserExist(userName = any())

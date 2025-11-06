@@ -6,6 +6,6 @@ class GetLastSignedInUserUseCase(
     private val userRepository: UserRepository,
 ) {
     operator fun invoke(): String? {
-        return userRepository.getLastSignedInUserName()
+        return userRepository.getLastSignedInUsername()
     }
 }

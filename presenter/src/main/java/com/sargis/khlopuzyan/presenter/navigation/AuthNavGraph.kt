@@ -35,6 +35,7 @@ fun NavGraphBuilder.authNavGraph(
             }
             SplashScreen()
         }
+
         composable(route = AuthRoutes.Login.route) {
             val viewModel: LoginViewModel = koinViewModel()
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -48,13 +49,15 @@ fun NavGraphBuilder.authNavGraph(
                     }
                 }
             }
+
             LoginScreen(uiState, onEvent = {
                 when (it) {
                     LoginUiEvent.Register -> navController.navigate(AuthRoutes.Register.route)
-                    is LoginUiEvent.Login -> viewModel::onEvent
+                    is LoginUiEvent.Login -> viewModel::onEvent.invoke(it)
                 }
             })
         }
+
         composable(route = AuthRoutes.Register.route) {
             val viewModel: RegisterViewModel = koinViewModel()
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -69,7 +72,9 @@ fun NavGraphBuilder.authNavGraph(
                 }
             }
 
-            RegisterScreen(uiState, onEvent = viewModel::onEvent)
+            RegisterScreen(uiState, onEvent = {
+                viewModel::onEvent.invoke(it)
+            })
         }
     }
 }

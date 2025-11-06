@@ -5,7 +5,7 @@ import com.sargis.khlopuzyan.domain.entity.RegisterUserParam
 import com.sargis.khlopuzyan.domain.entity.User
 
 interface UserRepository {
-    fun getLastSignedInUserName(): String?
+    fun getLastSignedInUsername(): String?
     fun getUser(loginUserParam: LoginUserParam): User?
     fun registerUser(registerUserParam: RegisterUserParam): User?
     fun isUserExist(userName: String): Boolean

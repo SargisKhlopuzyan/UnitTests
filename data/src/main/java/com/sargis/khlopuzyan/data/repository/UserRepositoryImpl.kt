@@ -7,28 +7,28 @@ import com.sargis.khlopuzyan.domain.repository.UserRepository
 
 class UserRepositoryImpl : UserRepository {
 
-    override fun getLastSignedInUserName(): String? {
+    override fun getLastSignedInUsername(): String? {
         return "SargisKh"
     }
 
     override fun getUser(loginUserParam: LoginUserParam): User? {
         return User(
             1,
-            userName = "SargisKh",
+            username = "SargisKh",
             firstName = "Sargis",
             lastName = "Khlopuzyan",
-            password = "1234"
+            password = "a1234"
         )
     }
 
     override fun registerUser(registerUserParam: RegisterUserParam): User? {
-        if (isUserExist(registerUserParam.userName)) {
+        if (isUserExist(registerUserParam.username)) {
             return null
         }
 
         return User(
             2,
-            userName = registerUserParam.userName,
+            username = registerUserParam.username,
             firstName = registerUserParam.firstName,
             lastName = registerUserParam.lastName,
             password = registerUserParam.password

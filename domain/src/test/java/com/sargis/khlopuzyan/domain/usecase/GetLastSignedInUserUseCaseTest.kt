@@ -14,8 +14,8 @@ class GetLastSignedInUserUseCaseTest {
 
     @Test
     fun `should return correct data`() {
-        val testUserName = "SargisKh"
-        `when`(userRepository.getLastSignedInUserName()).thenReturn(testUserName)
+        val testUsername = "SargisKh"
+        `when`(userRepository.getLastSignedInUsername()).thenReturn(testUsername)
         val actual: String? = getLastSignedInUserUseCase()
 
         val expected = "SargisKh"
@@ -24,8 +24,8 @@ class GetLastSignedInUserUseCaseTest {
 
     @Test
     fun `should return incorrect data`() {
-        val testUserName = "SargisKhX"
-        `when`(userRepository.getLastSignedInUserName()).thenReturn(testUserName)
+        val testUsername = "SargisKhX"
+        `when`(userRepository.getLastSignedInUsername()).thenReturn(testUsername)
         val actual: String? = getLastSignedInUserUseCase()
 
         val expected = "SargisKh"

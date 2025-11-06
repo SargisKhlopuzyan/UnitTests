@@ -14,6 +14,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -35,8 +36,13 @@ fun LoginScreen(uiState: LoginUiState, onEvent: (LoginUiEvent) -> Unit) {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            var userName by rememberSaveable {
-                mutableStateOf(uiState.lastSignedInUserName ?: "")
+
+            var username by rememberSaveable {
+                mutableStateOf(uiState.lastSignedInUsername ?: "")
+            }
+
+            LaunchedEffect(uiState.lastSignedInUsername) {
+                username = uiState.lastSignedInUsername ?: ""
             }
 
             var password by rememberSaveable {
@@ -45,9 +51,9 @@ fun LoginScreen(uiState: LoginUiState, onEvent: (LoginUiEvent) -> Unit) {
 
             OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
-                value = userName,
+                value = username,
                 onValueChange = {
-                    userName = it
+                    username = it
                 },
                 label = {
                     Text("User name")
@@ -72,7 +78,7 @@ fun LoginScreen(uiState: LoginUiState, onEvent: (LoginUiEvent) -> Unit) {
             Row {
                 Button(
                     onClick = {
-                        onEvent(LoginUiEvent.Login(userName, password))
+                        onEvent(LoginUiEvent.Login(username, password))
                     }
                 ) {
                     Text(text = "Login")
