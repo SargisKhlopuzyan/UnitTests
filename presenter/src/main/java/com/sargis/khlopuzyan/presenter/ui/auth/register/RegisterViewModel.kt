@@ -27,8 +27,8 @@ class RegisterViewModel(
         RegisterUiState()
     )
 
-    private var _navigationEvent: MutableSharedFlow<RegisterNavigationEvent> = MutableSharedFlow()
-    var navigationEvent: SharedFlow<RegisterNavigationEvent> = _navigationEvent.asSharedFlow()
+    private var _eventFlow: MutableSharedFlow<RegisterNavigationEvent> = MutableSharedFlow()
+    var eventFlow: SharedFlow<RegisterNavigationEvent> = _eventFlow.asSharedFlow()
 
     fun onEvent(uiEvent: RegisterUiEvent) {
         when (uiEvent) {
@@ -59,7 +59,7 @@ class RegisterViewModel(
 
             is Result.Success<User> -> {
                 result.data?.id?.let { userId ->
-                    _navigationEvent.tryEmit(RegisterNavigationEvent.Registered(userId))
+                    _eventFlow.tryEmit(RegisterNavigationEvent.Registered(userId))
                 } ?: run {
                     _uiState.update {
                         it.copy(error = "Something went wrong")

@@ -5,7 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.navigation.compose.rememberNavController
-import com.sargis.khlopuzyan.presenter.navigation.AppNavHost
+import com.sargis.khlopuzyan.presenter.navigation.AppNavigation
 import com.sargis.khlopuzyan.presenter.ui.theme.UnitTestsTheme
 
 class MainActivity : ComponentActivity() {
@@ -15,7 +15,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             UnitTestsTheme {
                 val navController = rememberNavController()
-                AppNavHost(navController)
+                AppNavigation(navController)
             }
         }
     }

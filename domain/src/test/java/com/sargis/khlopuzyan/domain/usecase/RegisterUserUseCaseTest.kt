@@ -2,7 +2,10 @@ package com.sargis.khlopuzyan.domain.usecase
 
 import com.sargis.khlopuzyan.domain.entity.RegisterUserParam
 import com.sargis.khlopuzyan.domain.repository.UserRepository
+import com.sargis.khlopuzyan.domain.util.NameValidator
+import com.sargis.khlopuzyan.domain.util.PasswordValidator
 import com.sargis.khlopuzyan.domain.util.Result
+import com.sargis.khlopuzyan.domain.util.UsernameValidator
 import org.junit.Test
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
@@ -13,8 +16,16 @@ import org.mockito.kotlin.mock
 
 class RegisterUserUseCaseTest {
 
-    val userRepository: UserRepository = mock()
-    val registerUserUseCase = RegisterUserUseCase(userRepository)
+    private val userRepository: UserRepository = mock()
+    private val usernameValidator: UsernameValidator = mock()
+    private val nameValidator: NameValidator = mock()
+    private val passwordValidator: PasswordValidator = mock()
+    val registerUserUseCase = RegisterUserUseCase(
+        userRepository,
+        usernameValidator,
+        nameValidator,
+        passwordValidator
+    )
 
     @AfterEach
     fun tearDown() {

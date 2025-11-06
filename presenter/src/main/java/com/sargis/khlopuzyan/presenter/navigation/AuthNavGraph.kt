@@ -2,6 +2,8 @@ package com.sargis.khlopuzyan.presenter.navigation
 
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -39,13 +41,19 @@ fun NavGraphBuilder.authNavGraph(
         composable(route = AuthRoutes.Login.route) {
             val viewModel: LoginViewModel = koinViewModel()
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-            val navigationEvent by viewModel.navigationEvent.collectAsStateWithLifecycle(null)
+            val navigationEvent by viewModel.eventFlow.collectAsStateWithLifecycle(
+                initialValue = null,
+                lifecycleOwner = LocalLifecycleOwner.current,
+                minActiveState = Lifecycle.State.STARTED
+            )
 
-            LaunchedEffect(navigationEvent) {
+            LaunchedEffect(key1 = navigationEvent) {
                 navigationEvent?.let { event ->
                     when (event) {
                         LoginNavigationEvent.NavigateUp -> navController.navigateUp()
-                        is LoginNavigationEvent.AuthSuccess -> onAuthSuccess(event.userId)
+                        is LoginNavigationEvent.AuthSuccess -> {
+                            onAuthSuccess(event.userId)
+                        }
                     }
                 }
             }
@@ -61,9 +69,9 @@ fun NavGraphBuilder.authNavGraph(
         composable(route = AuthRoutes.Register.route) {
             val viewModel: RegisterViewModel = koinViewModel()
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-            val navigationEvent by viewModel.navigationEvent.collectAsStateWithLifecycle(null)
+            val navigationEvent by viewModel.eventFlow.collectAsStateWithLifecycle(null)
 
-            LaunchedEffect(navigationEvent) {
+            LaunchedEffect(key1 = navigationEvent) {
                 navigationEvent?.let { event ->
                     when (event) {
                         RegisterNavigationEvent.NavigateUp -> navController.navigateUp()

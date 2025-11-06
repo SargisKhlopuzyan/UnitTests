@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 class LoginViewModel(
     private val getLastSignedInUserUseCase: GetLastSignedInUserUseCase,
@@ -32,9 +33,8 @@ class LoginViewModel(
         LoginUiState()
     )
 
-    private var _navigationEvent: MutableSharedFlow<LoginNavigationEvent> = MutableSharedFlow()
-    var navigationEvent: SharedFlow<LoginNavigationEvent> = _navigationEvent.asSharedFlow()
-
+    private var _eventFlow: MutableSharedFlow<LoginNavigationEvent> = MutableSharedFlow()
+    val eventFlow: SharedFlow<LoginNavigationEvent> = _eventFlow.asSharedFlow()
 
     fun onEvent(uiEvent: LoginUiEvent) {
         when (uiEvent) {
@@ -58,7 +58,9 @@ class LoginViewModel(
 
             is Result.Success<User> -> {
                 result.data?.id?.let { userId ->
-                    _navigationEvent.tryEmit(LoginNavigationEvent.AuthSuccess(userId))
+                    viewModelScope.launch {
+                        _eventFlow.emit(LoginNavigationEvent.AuthSuccess(userId))
+                    }
                 } ?: run {
                     _uiState.update {
                         it.copy(error = "Something went wrong")

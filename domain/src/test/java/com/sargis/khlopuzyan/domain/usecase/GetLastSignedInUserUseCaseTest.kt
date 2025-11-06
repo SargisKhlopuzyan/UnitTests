@@ -9,8 +9,7 @@ import org.mockito.Mockito.`when`
 class GetLastSignedInUserUseCaseTest {
 
     private val userRepository: UserRepository = mock()
-    private val getLastSignedInUserUseCase: GetLastSignedInUserUseCase =
-        GetLastSignedInUserUseCase(userRepository)
+    private val getLastSignedInUserUseCase = GetLastSignedInUserUseCase(userRepository)
 
     @Test
     fun `should return correct data`() {
