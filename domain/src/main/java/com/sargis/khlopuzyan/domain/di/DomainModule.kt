@@ -1,12 +1,12 @@
 package com.sargis.khlopuzyan.domain.di
 
-import com.sargis.khlopuzyan.domain.usecase.GetUserNameUseCase
-import com.sargis.khlopuzyan.domain.usecase.SaveUserNameUseCase
+import com.sargis.khlopuzyan.domain.usecase.GetUserUseCase
+import com.sargis.khlopuzyan.domain.usecase.SaveUserUseCase
 import org.koin.dsl.module
 
 private val useCasesModule = module {
-    single<GetUserNameUseCase> { GetUserNameUseCase(get()) }
-    single<SaveUserNameUseCase> { SaveUserNameUseCase(get()) }
+    single<GetUserUseCase> { GetUserUseCase(get()) }
+    single<SaveUserUseCase> { SaveUserUseCase(get()) }
 //    single<ImageSearchUseCase> { ImageSearchUseCase(get()) }
 }
 

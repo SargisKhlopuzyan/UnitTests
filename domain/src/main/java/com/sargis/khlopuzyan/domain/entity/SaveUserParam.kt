@@ -1,6 +1,6 @@
 package com.sargis.khlopuzyan.domain.entity
 
-data class UserName(
+data class SaveUserParam(
     val firstName: String,
     val lastName: String,
 )

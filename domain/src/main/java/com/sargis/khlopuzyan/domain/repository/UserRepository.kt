@@ -1,9 +1,9 @@
 package com.sargis.khlopuzyan.domain.repository
 
-import com.sargis.khlopuzyan.domain.entity.SaveUserNameParam
-import com.sargis.khlopuzyan.domain.entity.UserName
+import com.sargis.khlopuzyan.domain.entity.SaveUserParam
+import com.sargis.khlopuzyan.domain.entity.User
 
 interface UserRepository {
-    fun getName(): UserName
-    fun saveName(saveParam: SaveUserNameParam): Boolean
+    fun getUser(): User?
+    fun saveUser(saveParam: SaveUserParam): Boolean
 }
