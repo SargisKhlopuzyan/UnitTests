@@ -50,6 +50,12 @@ dependencies {
     implementation(libs.koin.androidx.compose)
     implementation(libs.koin.androidx.compose.navigation)
 
+    // Room
+    implementation(libs.androidx.room.runtime)
+    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation(libs.androidx.room.ktx)
+    // If project uses any Kotlin source, use Kotlin Symbol Processing (KSP)
+//    ksp(libs.androidx.room.compiler)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

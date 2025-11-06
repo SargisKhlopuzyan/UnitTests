@@ -1,5 +1,7 @@
 package com.sargis.khlopuzyan.data.di
 
+import com.sargis.khlopuzyan.data.local.dao.UserDao
+import com.sargis.khlopuzyan.data.local.db.UserDatabase
 import com.sargis.khlopuzyan.data.remote.PixabayApiRetrofitBuilder
 import com.sargis.khlopuzyan.data.repository.ImageSearchRepositoryImpl
 import com.sargis.khlopuzyan.data.repository.UserRepositoryImpl
@@ -19,16 +21,16 @@ private val repositoryModule = module {
     single { PixabayApiRetrofitBuilder.build() }
 }
 
-//private val databaseModule = module {
-//    single<NoteDatabase> {
-//        NoteDatabase.getInstance(get())
+private val databaseModule = module {
+    single<UserDatabase> {
+        UserDatabase.getInstance(get())
+    }
+    single<UserDao> {
+        get<UserDatabase>().userDao()
+    }
+//    single<UserDataSource> {
+//        UserDataSourceImpl(get())
 //    }
-//    single<NoteDao> {
-//        get<NoteDatabase>().noteDao()
-//    }
-//    single<NoteDataSource> {
-//        NoteDataSourceImpl(get())
-//    }
-//}
+}
 
-val dataModule = listOf(/*databaseModule,*/ repositoryModule)
+val dataModule = listOf(databaseModule, repositoryModule)
