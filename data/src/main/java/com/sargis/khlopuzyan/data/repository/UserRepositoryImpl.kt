@@ -22,17 +22,17 @@ class UserRepositoryImpl : UserRepository {
     }
 
     override fun registerUser(registerUserParam: RegisterUserParam): User? {
-        return if (registerUserParam.userName == "SargisKh") {
-            null
-        } else {
-            User(
-                2,
-                userName = registerUserParam.userName,
-                firstName = registerUserParam.firstName,
-                lastName = registerUserParam.lastName,
-                password = registerUserParam.password
-            )
+        if (isUserExist(registerUserParam.userName)) {
+            return null
         }
+
+        return User(
+            2,
+            userName = registerUserParam.userName,
+            firstName = registerUserParam.firstName,
+            lastName = registerUserParam.lastName,
+            password = registerUserParam.password
+        )
     }
 
     override fun isUserExist(userName: String): Boolean {
