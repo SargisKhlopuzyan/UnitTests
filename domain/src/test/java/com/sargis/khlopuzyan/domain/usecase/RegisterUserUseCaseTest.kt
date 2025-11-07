@@ -6,6 +6,7 @@ import com.sargis.khlopuzyan.domain.util.NameValidator
 import com.sargis.khlopuzyan.domain.util.PasswordValidator
 import com.sargis.khlopuzyan.domain.util.Result
 import com.sargis.khlopuzyan.domain.util.UsernameValidator
+import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
@@ -33,8 +34,9 @@ class RegisterUserUseCaseTest {
     }
 
     @Test
-    fun `should save user if userName wasn't already saved`() {
+    fun `should save user if username wasn't already saved`() = runTest {
         val testUsername = "SargisKh_New"
+
         `when`(userRepository.isUserExist(testUsername)).thenReturn(false)
 
         val testParam = RegisterUserParam(
@@ -50,7 +52,7 @@ class RegisterUserUseCaseTest {
     }
 
     @Test
-    fun `should not save user if userName was already saved`() {
+    fun `should not save user if username was already saved`() = runTest {
         val testUsername = "SargisKh"
         `when`(userRepository.isUserExist(testUsername)).thenReturn(true)
 
@@ -65,7 +67,7 @@ class RegisterUserUseCaseTest {
     }
 
     @Test
-    fun `should call isUserExist function one time`() {
+    fun `should call isUserExist function one time`() = runTest {
         `when`(userRepository.isUserExist(any())).thenReturn(true)
         val testParam = RegisterUserParam(
             username = "SargisKh",
@@ -74,6 +76,6 @@ class RegisterUserUseCaseTest {
             password = "a1234"
         )
         val actual = registerUserUseCase(testParam)
-        Mockito.verify(userRepository, Mockito.times(1)).isUserExist(userName = any())
+        Mockito.verify(userRepository, Mockito.times(1)).isUserExist(username = any())
     }
 }

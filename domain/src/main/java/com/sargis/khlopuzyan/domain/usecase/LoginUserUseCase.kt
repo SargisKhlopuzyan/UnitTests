@@ -12,9 +12,9 @@ class LoginUserUseCase(
     private val usernameValidator: UsernameValidator,
     private val passwordValidator: PasswordValidator,
 ) {
-    operator fun invoke(param: LoginUserParam): Result<User> {
+    suspend operator fun invoke(param: LoginUserParam): Result<User> {
 
-        if (!usernameValidator.isValidUsername(param.userName)) {
+        if (!usernameValidator.isValidUsername(param.username)) {
             return Result.Error(error = "Incorrect username", data = null)
         }
 

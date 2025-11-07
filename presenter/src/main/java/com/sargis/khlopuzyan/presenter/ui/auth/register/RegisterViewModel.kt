@@ -6,6 +6,7 @@ import com.sargis.khlopuzyan.domain.entity.RegisterUserParam
 import com.sargis.khlopuzyan.domain.entity.User
 import com.sargis.khlopuzyan.domain.usecase.RegisterUserUseCase
 import com.sargis.khlopuzyan.domain.util.Result
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -15,6 +16,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 class RegisterViewModel(
     private val registerUserUseCase: RegisterUserUseCase,
@@ -33,36 +35,38 @@ class RegisterViewModel(
     fun onEvent(uiEvent: RegisterUiEvent) {
         when (uiEvent) {
             is RegisterUiEvent.Register -> register(
-                uiEvent.userName,
-                uiEvent.firstName,
-                uiEvent.lastName,
-                uiEvent.password
+                firstName = uiEvent.firstName,
+                lastName = uiEvent.lastName,
+                username = uiEvent.username,
+                password = uiEvent.password
             )
         }
     }
 
-    fun register(userName: String, firstName: String, lastName: String, password: String) {
-        val param = RegisterUserParam(
-            username = userName,
-            firstName = firstName,
-            lastName = lastName,
-            password = password
-        )
-        val result = registerUserUseCase(param)
+    fun register(firstName: String, lastName: String, username: String, password: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val param = RegisterUserParam(
+                firstName = firstName,
+                lastName = lastName,
+                username = username,
+                password = password
+            )
+            val result = registerUserUseCase(param)
 
-        when (result) {
-            is Result.Error<*> -> _uiState.update {
-                it.copy(
-                    error = result.error
-                )
-            }
+            when (result) {
+                is Result.Error<*> -> _uiState.update {
+                    it.copy(
+                        error = result.error
+                    )
+                }
 
-            is Result.Success<User> -> {
-                result.data?.id?.let { userId ->
-                    _eventFlow.tryEmit(RegisterNavigationEvent.Registered(userId))
-                } ?: run {
-                    _uiState.update {
-                        it.copy(error = "Something went wrong")
+                is Result.Success<User> -> {
+                    result.data?.id?.let { userId ->
+                        _eventFlow.emit(RegisterNavigationEvent.Registered(userId))
+                    } ?: run {
+                        _uiState.update {
+                            it.copy(error = "Something went wrong")
+                        }
                     }
                 }
             }

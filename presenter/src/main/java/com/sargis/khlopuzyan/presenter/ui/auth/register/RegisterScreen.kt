@@ -34,10 +34,6 @@ fun RegisterScreen(uiState: RegisterUiState, onEvent: (RegisterUiEvent) -> Unit)
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            var userName by rememberSaveable {
-                mutableStateOf("")
-            }
-
             var firstName by rememberSaveable {
                 mutableStateOf("")
             }
@@ -46,22 +42,13 @@ fun RegisterScreen(uiState: RegisterUiState, onEvent: (RegisterUiEvent) -> Unit)
                 mutableStateOf("")
             }
 
-            var password by rememberSaveable {
+            var username by rememberSaveable {
                 mutableStateOf("")
             }
 
-            OutlinedTextField(
-                modifier = Modifier.fillMaxWidth(),
-                value = userName,
-                onValueChange = {
-                    userName = it
-                },
-                label = {
-                    Text("User name")
-                }
-            )
-
-            Spacer(modifier = Modifier.height(8.dp))
+            var password by rememberSaveable {
+                mutableStateOf("")
+            }
 
             OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
@@ -91,6 +78,19 @@ fun RegisterScreen(uiState: RegisterUiState, onEvent: (RegisterUiEvent) -> Unit)
 
             OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
+                value = username,
+                onValueChange = {
+                    username = it
+                },
+                label = {
+                    Text("Username")
+                }
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            OutlinedTextField(
+                modifier = Modifier.fillMaxWidth(),
                 value = password,
                 onValueChange = {
                     password = it
@@ -104,7 +104,14 @@ fun RegisterScreen(uiState: RegisterUiState, onEvent: (RegisterUiEvent) -> Unit)
 
             Button(
                 onClick = {
-                    onEvent(RegisterUiEvent.Register(userName, firstName, lastName, password))
+                    onEvent(
+                        RegisterUiEvent.Register(
+                            firstName = firstName,
+                            lastName = lastName,
+                            username = username,
+                            password = password
+                        )
+                    )
                 }
             ) {
                 Text(text = "Register")

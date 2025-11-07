@@ -1,41 +1,44 @@
 package com.sargis.khlopuzyan.data.repository
 
+import com.sargis.khlopuzyan.data.local.entity.toUser
+import com.sargis.khlopuzyan.data.local.entity.toUserEntity
+import com.sargis.khlopuzyan.data.local.source.UserDataSource
 import com.sargis.khlopuzyan.domain.entity.LoginUserParam
 import com.sargis.khlopuzyan.domain.entity.RegisterUserParam
 import com.sargis.khlopuzyan.domain.entity.User
 import com.sargis.khlopuzyan.domain.repository.UserRepository
 
-class UserRepositoryImpl : UserRepository {
+class UserRepositoryImpl(
+    val userDataSource: UserDataSource,
+) : UserRepository {
 
     override fun getLastSignedInUsername(): String? {
-        return "SargisKh"
+        return userDataSource.getLastSignedInUsername()
     }
 
-    override fun getUser(loginUserParam: LoginUserParam): User? {
-        return User(
-            1,
-            username = "SargisKh",
-            firstName = "Sargis",
-            lastName = "Khlopuzyan",
-            password = "a1234"
-        )
+    override fun saveLastSignedInUsername(username: String) {
+        userDataSource.saveLastSignedInUsername(username)
     }
 
-    override fun registerUser(registerUserParam: RegisterUserParam): User? {
+    override suspend fun getUser(loginUserParam: LoginUserParam): User? {
+        return userDataSource.getUserByUsernameAndPassword(
+            loginUserParam.username,
+            loginUserParam.password
+        )?.toUser()
+    }
+
+    override suspend fun registerUser(registerUserParam: RegisterUserParam): User? {
         if (isUserExist(registerUserParam.username)) {
             return null
         }
 
-        return User(
-            2,
-            username = registerUserParam.username,
-            firstName = registerUserParam.firstName,
-            lastName = registerUserParam.lastName,
-            password = registerUserParam.password
-        )
+        val userEntity = registerUserParam.toUserEntity()
+        val id = userDataSource.insertUser(userEntity)
+
+        return userEntity.toUser().copy(id = id)
     }
 
-    override fun isUserExist(userName: String): Boolean {
-        return userName.equals("Sargis", true)
+    override suspend fun isUserExist(username: String): Boolean {
+        return userDataSource.getUserByUsername(username) != null
     }
 }

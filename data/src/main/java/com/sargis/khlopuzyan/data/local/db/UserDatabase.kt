@@ -29,7 +29,10 @@ abstract class UserDatabase : RoomDatabase() {
                     context.applicationContext,
                     UserDatabase::class.java,
                     DATABASE_NAME,
-                ).build()
+                )
+//                    .fallbackToDestructiveMigrationOnDowngrade()
+//                    .setQueryCoroutineContext(Dispatchers.IO)
+                    .build()
                 INSTANCE = instance
                 instance
             }

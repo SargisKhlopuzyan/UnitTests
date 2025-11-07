@@ -46,7 +46,7 @@ fun LoginScreen(uiState: LoginUiState, onEvent: (LoginUiEvent) -> Unit) {
             }
 
             var password by rememberSaveable {
-                mutableStateOf("a1234")
+                mutableStateOf("")
             }
 
             OutlinedTextField(
@@ -56,7 +56,7 @@ fun LoginScreen(uiState: LoginUiState, onEvent: (LoginUiEvent) -> Unit) {
                     username = it
                 },
                 label = {
-                    Text("User name")
+                    Text("Username")
                 }
             )
 
@@ -97,6 +97,7 @@ fun LoginScreen(uiState: LoginUiState, onEvent: (LoginUiEvent) -> Unit) {
 
             if (!uiState.error.isNullOrBlank()) {
                 Spacer(modifier = Modifier.height(8.dp))
+
                 Text(
                     text = uiState.error,
                     color = Color.Red

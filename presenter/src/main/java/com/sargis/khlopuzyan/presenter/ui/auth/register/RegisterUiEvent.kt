@@ -4,9 +4,9 @@ import com.sargis.khlopuzyan.presenter.base.UiEvent
 
 sealed interface RegisterUiEvent : UiEvent {
     data class Register(
-        val userName: String,
         val firstName: String,
         val lastName: String,
+        val username: String,
         val password: String,
     ) : RegisterUiEvent
 }

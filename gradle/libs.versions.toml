@@ -1,25 +1,27 @@
 [versions]
 agp = "8.10.1"
-junitJupiter = "5.12.2"
-kotlin = "2.0.21"
+junitJupiter = "6.0.1"
+kotlin = "2.1.21"
 coreKtx = "1.17.0"
 junit = "4.13.2"
 junitVersion = "1.3.0"
 espressoCore = "3.7.0"
+kotlinxCoroutinesTest = "1.8.0"
 lifecycleRuntimeKtx = "2.9.4"
 activityCompose = "1.11.0"
 composeBom = "2025.10.01"
 appcompat = "1.7.1"
 material = "1.13.0"
 
-mockitoCore = "5.4.0"
-mockitoKotlin = "5.4.0"
-moshiKotlin = "1.9.1"
+mockitoCore = "5.20.0"
+mockitoKotlin = "6.1.0"
+moshiKotlin = "1.15.2"
 retrofit = "3.0.0"
-koin = "4.1.0"
+koin = "4.1.1"
 ksp = "2.1.21-2.0.2"
-androidxNavigationCompose = "2.9.5"
-roomRuntime = "2.8.1"
+androidxNavigationCompose = "2.9.6"
+roomRuntime = "2.8.3"
+gson = "2.13.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -39,6 +41,7 @@ androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junitJupiter" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockitoCore" }
@@ -56,13 +59,16 @@ koin-androidx-compose-navigation = { module = "io.insert-koin:koin-androidx-comp
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "androidxNavigationCompose" }
 
 #Room
-androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntime" }
-androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomRuntime" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
+androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomRuntime" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntime" }
+
+#Gson
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }
-ksp = { id = "com.google.devtools.ksp",  version.ref ="ksp" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

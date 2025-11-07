@@ -7,6 +7,7 @@ import com.sargis.khlopuzyan.domain.entity.User
 import com.sargis.khlopuzyan.domain.usecase.GetLastSignedInUserUseCase
 import com.sargis.khlopuzyan.domain.usecase.LoginUserUseCase
 import com.sargis.khlopuzyan.domain.util.Result
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -38,32 +39,34 @@ class LoginViewModel(
 
     fun onEvent(uiEvent: LoginUiEvent) {
         when (uiEvent) {
-            is LoginUiEvent.Login -> login(uiEvent.userName, uiEvent.password)
+            is LoginUiEvent.Login -> login(uiEvent.username, uiEvent.password)
             else -> {}
         }
     }
 
-    fun login(userName: String, password: String) {
-        val param = LoginUserParam(
-            userName = userName,
-            password = password
-        )
-        val result = loginUserUseCase(param)
-        when (result) {
-            is Result.Error<*> -> _uiState.update {
-                it.copy(
-                    error = result.error
-                )
-            }
+    fun login(username: String, password: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val param = LoginUserParam(
+                username = username,
+                password = password
+            )
+            val result = loginUserUseCase(param)
+            when (result) {
+                is Result.Error<*> -> _uiState.update {
+                    it.copy(
+                        error = result.error
+                    )
+                }
 
-            is Result.Success<User> -> {
-                result.data?.id?.let { userId ->
-                    viewModelScope.launch {
-                        _eventFlow.emit(LoginNavigationEvent.AuthSuccess(userId))
-                    }
-                } ?: run {
-                    _uiState.update {
-                        it.copy(error = "Something went wrong")
+                is Result.Success<User> -> {
+                    result.data?.id?.let { userId ->
+                        viewModelScope.launch {
+                            _eventFlow.emit(LoginNavigationEvent.AuthSuccess(userId))
+                        }
+                    } ?: run {
+                        _uiState.update {
+                            it.copy(error = "Something went wrong")
+                        }
                     }
                 }
             }
@@ -71,11 +74,11 @@ class LoginViewModel(
     }
 
     fun fetchLastSignedInUser() {
-        val userName = getLastSignedInUserUseCase()
-        userName?.let {
+        val username = getLastSignedInUserUseCase()
+        username?.let {
             _uiState.update {
                 it.copy(
-                    lastSignedInUsername = userName
+                    lastSignedInUsername = username
                 )
             }
         }

@@ -14,7 +14,7 @@ class RegisterUserUseCase(
     private val nameValidator: NameValidator,
     private val passwordValidator: PasswordValidator,
 ) {
-    operator fun invoke(param: RegisterUserParam): Result<User> {
+    suspend operator fun invoke(param: RegisterUserParam): Result<User> {
         val isUserExist = userRepository.isUserExist(param.username)
 
         if (isUserExist) {
