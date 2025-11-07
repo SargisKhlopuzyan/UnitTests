@@ -14,9 +14,8 @@ import org.koin.dsl.module
 
 private val repositoryModule = module {
 
-    single<UserRepository> {
-        UserRepositoryImpl(get())
-    }
+//    single<NoteRepository> { FakeNoteRepository() }
+    single<UserRepository> { UserRepositoryImpl(get()) }
 
     single<ImageSearchRepository> {
         ImageSearchRepositoryImpl(get())
@@ -31,16 +30,17 @@ private val sharedPrefModule = module {
     }
 }
 
-private val databaseModule = module {
+private val databaseTestModule = module {
     single<UserDatabase> {
-        UserDatabase.getInstance(get())
+        UserDatabase.getTestInstance(get())
     }
     single<UserDao> {
         get<UserDatabase>().userDao()
     }
     single<UserDataSource> {
+//        FakeAndroidNoteDataSource()
         UserDataSourceImpl(get(), get())
     }
 }
 
-val dataModule = listOf(sharedPrefModule, databaseModule, repositoryModule)
+val dataTestModule = listOf(sharedPrefModule, databaseTestModule, repositoryModule)

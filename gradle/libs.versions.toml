@@ -22,6 +22,9 @@ ksp = "2.1.21-2.0.2"
 androidxNavigationCompose = "2.9.6"
 roomRuntime = "2.8.3"
 gson = "2.13.2"
+truth = "1.4.4"
+koinCore = "4.0.3"
+koinTestJunit4 = "4.0.3"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -54,6 +57,8 @@ converter-moshi = { module = "com.squareup.retrofit2:converter-moshi", version.r
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
 koin-androidx-compose-navigation = { module = "io.insert-koin:koin-androidx-compose-navigation", version.ref = "koin" }
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koinCore" }
+koin-test-junit4 = { module = "io.insert-koin:koin-test-junit4", version.ref = "koinTestJunit4" }
 
 #Navigation
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "androidxNavigationCompose" }
@@ -65,6 +70,8 @@ androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref =
 
 #Gson
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+
+truth = { module = "com.google.truth:truth", version.ref = "truth" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

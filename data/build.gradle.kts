@@ -11,7 +11,8 @@ android {
     defaultConfig {
         minSdk = 24
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+//        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.sargis.khlopuzyan.data.InstrumentationTestRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
 
@@ -64,7 +65,15 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
 
+//    testImplementation(libs.truth)
     testImplementation(libs.junit)
+
+//    androidTestImplementation(libs.truth)
+    androidTestImplementation(libs.koin.core)
+//    androidTestImplementation(libs.junit.jupiter)
+    androidTestImplementation(libs.kotlinx.coroutines.test)
+    androidTestImplementation(libs.koin.test.junit4)
+
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }
