@@ -3,6 +3,7 @@ package com.sargis.khlopuzyan.domain.usecase
 import com.sargis.khlopuzyan.domain.repository.UserRepository
 import org.junit.Test
 import org.junit.jupiter.api.Assertions
+import org.mockito.Mockito
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
 
@@ -29,5 +30,13 @@ class GetLastSignedInUserUseCaseTest {
 
         val expected = "SargisKh"
         Assertions.assertNotEquals(actual, expected)
+    }
+
+    @Test
+    fun `should call getLastSignedInUsername function one time`() {
+        val testUsername = "SargisKh"
+        `when`(userRepository.getLastSignedInUsername()).thenReturn(testUsername)
+        val actual: String? = getLastSignedInUserUseCase()
+        Mockito.verify(userRepository, Mockito.times(1)).getLastSignedInUsername()
     }
 }

@@ -1,6 +1,7 @@
 package com.sargis.khlopuzyan.domain.usecase
 
 import com.sargis.khlopuzyan.domain.entity.RegisterUserParam
+import com.sargis.khlopuzyan.domain.entity.User
 import com.sargis.khlopuzyan.domain.repository.UserRepository
 import com.sargis.khlopuzyan.domain.util.NameValidator
 import com.sargis.khlopuzyan.domain.util.PasswordValidator
@@ -21,10 +22,11 @@ class RegisterUserUseCaseTest {
     private val usernameValidator: UsernameValidator = mock()
     private val nameValidator: NameValidator = mock()
     private val passwordValidator: PasswordValidator = mock()
+
     val registerUserUseCase = RegisterUserUseCase(
         userRepository,
-        usernameValidator,
         nameValidator,
+        usernameValidator,
         passwordValidator
     )
 
@@ -35,16 +37,28 @@ class RegisterUserUseCaseTest {
 
     @Test
     fun `should save user if username wasn't already saved`() = runTest {
-        val testUsername = "SargisKh_New"
-
-        `when`(userRepository.isUserExist(testUsername)).thenReturn(false)
-
         val testParam = RegisterUserParam(
-            username = testUsername,
             firstName = "Sargis",
             lastName = "Khlopuzyan",
+            username = "SargisKh",
             password = "a1234"
         )
+
+        `when`(userRepository.isUserExist(testParam.username)).thenReturn(false)
+        `when`(nameValidator.isValidName(testParam.firstName)).thenReturn(true)
+        `when`(nameValidator.isValidName(testParam.lastName)).thenReturn(true)
+        `when`(usernameValidator.isValidUsername(testParam.username)).thenReturn(true)
+        `when`(passwordValidator.isValidPassword(testParam.password)).thenReturn(true)
+
+        val testUser = User(
+            id = 1,
+            firstName = "Sargis",
+            lastName = "Khlopuzyan",
+            username = "SargisKh",
+            password = "a1234"
+        )
+
+        `when`(userRepository.registerUser(testParam)).thenReturn(testUser)
 
         val actual = registerUserUseCase(testParam)
 

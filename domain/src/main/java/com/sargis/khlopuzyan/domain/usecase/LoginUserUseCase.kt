@@ -15,17 +15,17 @@ class LoginUserUseCase(
     suspend operator fun invoke(param: LoginUserParam): Result<User> {
 
         if (!usernameValidator.isValidUsername(param.username)) {
-            return Result.Error(error = "Incorrect username", data = null)
+            return Result.Error(error = "Incorrect username")
         }
 
         if (!passwordValidator.isValidPassword(param.password)) {
-            return Result.Error(error = "Incorrect password", data = null)
+            return Result.Error(error = "Incorrect password")
         }
 
         val user = userRepository.getUser(loginUserParam = param)
 
         if (user == null) {
-            return Result.Error(error = "Incorrect username or password", data = null)
+            return Result.Error(error = "Incorrect username or password")
         }
 
         return Result.Success(user)
