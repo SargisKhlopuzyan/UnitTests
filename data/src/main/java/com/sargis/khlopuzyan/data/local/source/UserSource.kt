@@ -8,12 +8,12 @@ import kotlinx.coroutines.flow.Flow
 interface UserDataSource {
     fun getLastSignedInUsername(): String?
     fun saveLastSignedInUsername(username: String)
-    fun getUsers(): Flow<List<UserEntity>>
+    fun observeAllUsers(): Flow<List<UserEntity>>
     suspend fun getUserById(id: Int): UserEntity?
     suspend fun getUserByUsername(username: String): UserEntity?
     suspend fun getUserByUsernameAndPassword(username: String, password: String): UserEntity?
     suspend fun insertUser(node: UserEntity): Int
-    suspend fun deleteUser(node: UserEntity)
+    suspend fun deleteUser(node: UserEntity): Int
 }
 
 class UserDataSourceImpl(
@@ -28,8 +28,8 @@ class UserDataSourceImpl(
         userSharedPref.saveLastSignedInUsername(username)
     }
 
-    override fun getUsers(): Flow<List<UserEntity>> {
-        return dao.getUsers()
+    override fun observeAllUsers(): Flow<List<UserEntity>> {
+        return dao.getAllUsers()
     }
 
     override suspend fun getUserById(id: Int): UserEntity? {
@@ -51,7 +51,7 @@ class UserDataSourceImpl(
         return dao.insertUser(node).toInt()
     }
 
-    override suspend fun deleteUser(node: UserEntity) {
-        dao.deleteUser(node)
+    override suspend fun deleteUser(node: UserEntity): Int {
+        return dao.deleteUser(node)
     }
 }

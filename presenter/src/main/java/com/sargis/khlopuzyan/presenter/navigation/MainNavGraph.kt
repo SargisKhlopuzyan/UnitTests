@@ -19,8 +19,9 @@ fun NavGraphBuilder.mainNavGraph(
             val viewModel = koinViewModel<MainViewModel>()
             val usState = viewModel.uiState.collectAsStateWithLifecycle()
             MainScreen(usState, onEvent = {
-                when(it) {
+                when (it) {
                     MainUiEvent.SignedOut -> onSignedOut()
+                    else -> viewModel::onEvent.invoke(it)
                 }
             })
         }

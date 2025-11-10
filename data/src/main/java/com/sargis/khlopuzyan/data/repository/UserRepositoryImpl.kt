@@ -7,9 +7,11 @@ import com.sargis.khlopuzyan.domain.entity.LoginUserParam
 import com.sargis.khlopuzyan.domain.entity.RegisterUserParam
 import com.sargis.khlopuzyan.domain.entity.User
 import com.sargis.khlopuzyan.domain.repository.UserRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class UserRepositoryImpl(
-    val userDataSource: UserDataSource,
+    private val userDataSource: UserDataSource,
 ) : UserRepository {
 
     override fun getLastSignedInUsername(): String? {
@@ -18,6 +20,14 @@ class UserRepositoryImpl(
 
     override fun saveLastSignedInUsername(username: String) {
         userDataSource.saveLastSignedInUsername(username)
+    }
+
+    override suspend fun observeAllUser(): Flow<List<User>> {
+        return userDataSource.observeAllUsers().map {
+            it.map {
+                it.toUser()
+            }
+        }
     }
 
     override suspend fun getUser(loginUserParam: LoginUserParam): User? {
@@ -36,6 +46,10 @@ class UserRepositoryImpl(
         val id = userDataSource.insertUser(userEntity)
 
         return userEntity.toUser().copy(id = id)
+    }
+
+    override suspend fun deleteUser(userEntity: User): Int {
+        return userDataSource.deleteUser(userEntity.toUserEntity())
     }
 
     override suspend fun isUserExist(username: String): Boolean {

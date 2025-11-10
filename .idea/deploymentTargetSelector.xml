@@ -5,19 +5,10 @@
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="insertingUser_addsUserInLocalDb() (1)">
+      <SelectionState runConfigName="calling_isUserExist_returnTrueIfUserAlreadySaved()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="UserTestDao">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="deletingInsertedUser_addsAndRemoveUserInLocalDb()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="gettingInsertedUserByUsername_addsAndUserInLocalDbAndReturnUserByUsername()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="gettingInsertedUser_addsUserInLocalDbAndReturnsUserByUsernameAndPassword()">
+      <SelectionState runConfigName="UserRepositoryImplTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

@@ -71,9 +71,9 @@ class RegisterUserUseCaseTest {
         `when`(userRepository.isUserExist(testUsername)).thenReturn(true)
 
         val testParam = RegisterUserParam(
-            username = testUsername,
             firstName = "Sargis",
             lastName = "Khlopuzyan",
+            username = testUsername,
             password = "a1234"
         )
         val actual = registerUserUseCase(testParam)
@@ -84,9 +84,9 @@ class RegisterUserUseCaseTest {
     fun `should call isUserExist function one time`() = runTest {
         `when`(userRepository.isUserExist(any())).thenReturn(true)
         val testParam = RegisterUserParam(
-            username = "SargisKh",
             firstName = "Sargis",
             lastName = "Khlopuzyan",
+            username = "SargisKh",
             password = "a1234"
         )
         val actual = registerUserUseCase(testParam)

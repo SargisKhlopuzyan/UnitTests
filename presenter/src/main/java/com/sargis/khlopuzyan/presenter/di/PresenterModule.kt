@@ -14,7 +14,7 @@ private val viewModelModule = module {
         RegisterViewModel(get())
     }
     viewModel {
-        MainViewModel()
+        MainViewModel(get(), get())
     }
 }
 
