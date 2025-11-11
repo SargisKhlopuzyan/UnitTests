@@ -49,11 +49,11 @@ dependencies {
     // Tests
 //    testImplementation(libs.truth)
 
-    // youtube project
-    testImplementation(libs.junit.jupiter)
+    // mockito
     testImplementation(libs.mockito.core)
     testImplementation(libs.mockito.kotlin)
-
+    // jupiter
+    testImplementation(libs.junit.jupiter)
     // runTest - when we want to test suspended function
     testImplementation(libs.kotlinx.coroutines.test)
 

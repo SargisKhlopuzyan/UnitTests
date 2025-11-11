@@ -43,7 +43,7 @@ class RegisterViewModel(
         }
     }
 
-    fun register(firstName: String, lastName: String, username: String, password: String) {
+    private fun register(firstName: String, lastName: String, username: String, password: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val param = RegisterUserParam(
                 firstName = firstName,

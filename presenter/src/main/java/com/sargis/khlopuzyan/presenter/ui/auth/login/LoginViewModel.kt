@@ -44,7 +44,7 @@ class LoginViewModel(
         }
     }
 
-    fun login(username: String, password: String) {
+    private fun login(username: String, password: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val param = LoginUserParam(
                 username = username,
@@ -73,7 +73,7 @@ class LoginViewModel(
         }
     }
 
-    fun fetchLastSignedInUser() {
+    private fun fetchLastSignedInUser() {
         val username = getLastSignedInUserUseCase()
         username?.let {
             _uiState.update {

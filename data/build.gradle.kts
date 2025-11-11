@@ -65,10 +65,13 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
 
+    // mockito
     testImplementation(libs.mockito.core)
     testImplementation(libs.mockito.kotlin)
-    testImplementation(libs.kotlinx.coroutines.test) // runTest
+    // jupiter
     testImplementation(libs.junit.jupiter)
+    // runTest - when we want to test suspended function
+    testImplementation(libs.kotlinx.coroutines.test)
 
 //    testImplementation(libs.truth)
     testImplementation(libs.junit)

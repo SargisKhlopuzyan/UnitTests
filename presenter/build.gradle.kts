@@ -62,6 +62,17 @@ dependencies {
 //    implementation(libs.androidx.material.icons.extended.android)
 
     testImplementation(libs.junit)
+
+    // mockito
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.kotlin)
+    // in case there is issue with creating final class instance mock (useCase) in tests implement this:
+//    testImplementation("org.mockito:mockito-inline:4.0.0")
+    // jupiter
+    testImplementation(libs.junit.jupiter)
+    // runTest - when we want to test suspended function
+    testImplementation(libs.kotlinx.coroutines.test)
+
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
