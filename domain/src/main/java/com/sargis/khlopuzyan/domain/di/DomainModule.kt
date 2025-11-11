@@ -1,7 +1,8 @@
 package com.sargis.khlopuzyan.domain.di
 
 import com.sargis.khlopuzyan.domain.usecase.DeleteUserUseCase
-import com.sargis.khlopuzyan.domain.usecase.GetLastSignedInUserUseCase
+import com.sargis.khlopuzyan.domain.usecase.GetLastSignedInUsernameUseCase
+import com.sargis.khlopuzyan.domain.usecase.GetUserByUsernameUseCase
 import com.sargis.khlopuzyan.domain.usecase.LoginUserUseCase
 import com.sargis.khlopuzyan.domain.usecase.ObserveAllUsersUseCase
 import com.sargis.khlopuzyan.domain.usecase.RegisterUserUseCase
@@ -11,10 +12,11 @@ import com.sargis.khlopuzyan.domain.util.UsernameValidator
 import org.koin.dsl.module
 
 private val useCasesModule = module {
-    single<GetLastSignedInUserUseCase> { GetLastSignedInUserUseCase(get()) }
+    single<GetLastSignedInUsernameUseCase> { GetLastSignedInUsernameUseCase(get()) }
     single<LoginUserUseCase> { LoginUserUseCase(get(), get(), get()) }
     single<RegisterUserUseCase> { RegisterUserUseCase(get(), get(), get(), get()) }
     single<ObserveAllUsersUseCase> { ObserveAllUsersUseCase(get()) }
+    single<GetUserByUsernameUseCase> { GetUserByUsernameUseCase(get()) }
     single<DeleteUserUseCase> { DeleteUserUseCase(get()) }
 //    single<ImageSearchUseCase> { ImageSearchUseCase(get()) }
 }

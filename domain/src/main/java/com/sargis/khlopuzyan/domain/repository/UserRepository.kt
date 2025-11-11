@@ -10,6 +10,7 @@ interface UserRepository {
     fun saveLastSignedInUsername(username: String)
     suspend fun observeAllUser(): Flow<List<User>>
     suspend fun getUser(loginUserParam: LoginUserParam): User?
+    suspend fun getUserByUsername(username: String): User?
     suspend fun registerUser(registerUserParam: RegisterUserParam): User?
     suspend fun deleteUser(userEntity: User): Int
     suspend fun isUserExist(username: String): Boolean

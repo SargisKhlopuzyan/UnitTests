@@ -37,6 +37,10 @@ class UserRepositoryImpl(
         )?.toUser()
     }
 
+    override suspend fun getUserByUsername(username: String): User? {
+        return userDataSource.getUserByUsername(username)?.toUser()
+    }
+
     override suspend fun registerUser(registerUserParam: RegisterUserParam): User? {
         if (isUserExist(registerUserParam.username)) {
             return null

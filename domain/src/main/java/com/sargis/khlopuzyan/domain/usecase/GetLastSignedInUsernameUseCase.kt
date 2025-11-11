@@ -2,7 +2,7 @@ package com.sargis.khlopuzyan.domain.usecase
 
 import com.sargis.khlopuzyan.domain.repository.UserRepository
 
-class GetLastSignedInUserUseCase(
+class GetLastSignedInUsernameUseCase(
     private val userRepository: UserRepository,
 ) {
     operator fun invoke(): String? {

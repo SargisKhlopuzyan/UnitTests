@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sargis.khlopuzyan.domain.entity.LoginUserParam
 import com.sargis.khlopuzyan.domain.entity.User
-import com.sargis.khlopuzyan.domain.usecase.GetLastSignedInUserUseCase
+import com.sargis.khlopuzyan.domain.usecase.GetLastSignedInUsernameUseCase
 import com.sargis.khlopuzyan.domain.usecase.LoginUserUseCase
 import com.sargis.khlopuzyan.domain.util.Result
 import kotlinx.coroutines.Dispatchers
@@ -20,7 +20,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
-    private val getLastSignedInUserUseCase: GetLastSignedInUserUseCase,
+    private val getLastSignedInUsernameUseCase: GetLastSignedInUsernameUseCase,
     private val loginUserUseCase: LoginUserUseCase,
 ) : ViewModel() {
 
@@ -74,7 +74,7 @@ class LoginViewModel(
     }
 
     private fun fetchLastSignedInUser() {
-        val username = getLastSignedInUserUseCase()
+        val username = getLastSignedInUsernameUseCase()
         username?.let {
             _uiState.update {
                 it.copy(

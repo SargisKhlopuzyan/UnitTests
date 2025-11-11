@@ -73,6 +73,9 @@ dependencies {
     // runTest - when we want to test suspended function
     testImplementation(libs.kotlinx.coroutines.test)
 
+    // in case we want to use uiState.test
+//    testImplementation("app.cash.turbine:turbine:1.0.0")
+
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
